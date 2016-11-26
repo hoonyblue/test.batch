@@ -130,6 +130,9 @@ public class SchedulerService {
 	@Autowired
 	private JobRepository jobRepository; //JobRepositoryFactoryBean
 	
+	/**
+	 * quartz(스) + spring batch 
+	 */
 	public void test() throws Exception {
 		
 		String jobName = "ibatisToDelimitedJob";
