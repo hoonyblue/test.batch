@@ -24,4 +24,5 @@
   	update CUSTOMER set CREDIT = #credit# where NAME = #name#
   </update>
  -->  
+
 </mapper>
