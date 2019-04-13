@@ -131,13 +131,9 @@ public class SchedulerService {
 	private JobRepository jobRepository; //JobRepositoryFactoryBean
 	
 	/**
-<<<<<<< HEAD
 	 * 테스트 모듈..
 	 * @ses egov batch job + quartz(스케쥴)
 	 * @throws Exception
-=======
-	 * quartz(스) + spring batch 
->>>>>>> branch 'master' of https://github.com/hoonyblue/test.batch.git
 	 */
 	public void test() throws Exception {
 		

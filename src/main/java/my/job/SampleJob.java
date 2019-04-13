@@ -14,7 +14,7 @@ public class SampleJob implements Job {
 	
 	public void execute(JobExecutionContext paramJobExecutionContext)
 		throws JobExecutionException {
-		// todo 서비스 호출
+		// todo 
 		service.hello();
 	
 	}

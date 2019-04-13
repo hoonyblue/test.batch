@@ -75,7 +75,7 @@ public class SchedulerConfig {
         return createCronTrigger(jobDetail, "0/5 * * * * ?");
     }
 
-    private static JobDetailFactoryBean createJobDetail(Class jobClass) {
+    private static JobDetailFactoryBean createJobDetail(Class<SampleJob> jobClass) {
         JobDetailFactoryBean factoryBean = new JobDetailFactoryBean();
         factoryBean.setJobClass(jobClass);
         // job has to be durable to be stored in DB:
@@ -83,7 +83,8 @@ public class SchedulerConfig {
         return factoryBean;
     }
 
-    private static SimpleTriggerFactoryBean createTrigger(JobDetail jobDetail, long pollFrequencyMs) {
+    @SuppressWarnings("unused")
+	private static SimpleTriggerFactoryBean createTrigger(JobDetail jobDetail, long pollFrequencyMs) {
         SimpleTriggerFactoryBean factoryBean = new SimpleTriggerFactoryBean();
         factoryBean.setJobDetail(jobDetail);
         factoryBean.setStartDelay(0L);

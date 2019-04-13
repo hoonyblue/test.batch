@@ -23,7 +23,7 @@ public class MyController {
 		log.info("test");
 		
 		try {
-			service.delJob(SampleJob2.class.getName()); //"SampleJob2");
+			service.removeJob(SampleJob2.class.getName()); //"SampleJob2");
 			log.info("del job");
 			String _addjob = service.addJob("my.job.SampleJob2", SampleJob2.class.getName(), "0/10 * * * * ?");
 			log.info("add job: " + _addjob);
