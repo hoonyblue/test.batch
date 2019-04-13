@@ -22,7 +22,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * 
- * @author »∆¿Ã
+ * @author yhlee
  *
  */
 @Component

@@ -1,7 +1,5 @@
 package my;
 
-import my.job.SampleJob;
-
 import org.junit.Test;
 import org.quartz.JobBuilder;
 import org.quartz.JobDetail;
@@ -9,12 +7,13 @@ import org.quartz.Scheduler;
 import org.quartz.Trigger;
 import org.quartz.TriggerBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.test.context.testng.AbstractTransactionalTestNGSpringContextTests;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import my.job.SampleJob;
 
 
-@SpringApplicationConfiguration(classes=Application.class)
-public class ApplicationTest extends AbstractTransactionalTestNGSpringContextTests {
+@SpringBootTest(classes=Application.class)
+public class ApplicationTest {
 
 	@Autowired
 	private Scheduler scheduler; 

@@ -1,14 +1,15 @@
 package my;
 
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Import;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.context.annotation.ImportResource;
 
 @SpringBootApplication
 //@Import({SchedulerConfig.class})
-@ImportResource("/batch/context-*.xml")
+@EnableAutoConfiguration(exclude= {DataSourceAutoConfiguration.class})
+@ImportResource("classpath:/batch/context-*.xml")
 public class Application {
 
 	public static void main(String[] args) throws Exception {

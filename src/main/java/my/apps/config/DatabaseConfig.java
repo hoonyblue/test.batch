@@ -31,8 +31,12 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
+import org.springframework.jdbc.support.lob.DefaultLobHandler;
 import org.springframework.transaction.PlatformTransactionManager;
 
 @Configuration
@@ -63,24 +67,17 @@ public class DatabaseConfig {
 	@Bean(name="dataSource")
 	public DataSource dataSource() {
 
-//	    JndiDataSourceLookup dsLookup = new JndiDataSourceLookup();
-//	    dsLookup.setResourceRef(true);
-//	    DataSource dataSource = dsLookup.getDataSource("java:comp/env/postgresDS");
-
-		DriverManagerDataSource dataSource = new DriverManagerDataSource();
-//		dataSource.setDriverClassName("org.postgresql.Driver");
-//		dataSource.setUrl("jdbc:postgresql://10.0.4.59:5432/ncms");
-		dataSource.setDriverClassName("net.sf.log4jdbc.sql.jdbcapi.DriverSpy");
-		dataSource.setUrl("jdbc:log4jdbc:postgresql://10.0.4.88:5432/ncms");
-		dataSource.setUsername("ncms");
-		dataSource.setPassword("ncms1216@");		
-		
-//		dataSource.setDriverClassName("net.sf.log4jdbc.DriverSpy");
-//		dataSource.setUrl("jdbc:log4jdbc:postgresql://10.0.4.59:5432/ncms");		
+//		DriverManagerDataSource dataSource = new DriverManagerDataSource();
+//		dataSource.setDriverClassName("net.sf.log4jdbc.sql.jdbcapi.DriverSpy");
+//		dataSource.setUrl("jdbc:log4jdbc:postgresql://10.0.4.88:5432/ncms");
 //		dataSource.setUsername("ncms");
-//		dataSource.setPassword("ncms1216@");
+//		dataSource.setPassword("ncms1216@");	
 		
-		return dataSource;
+		EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
+		EmbeddedDatabase db = (EmbeddedDatabase) builder.setType(EmbeddedDatabaseType.HSQL)
+									.addScript("classpath:/db/sampledb.script").build();
+		
+		return db;
 	}
 
 	/**
@@ -93,11 +90,18 @@ public class DatabaseConfig {
 	 *
 	 * @return
 	 */
-	@Bean(name="transactionManager")
+	@Bean(name="transactionManager" )
+	@Lazy
 	public PlatformTransactionManager transactionManager() {
 		return new DataSourceTransactionManager(dataSource());
 	}
 
+	@Bean(name="lobHandler")
+	public DefaultLobHandler lobHandler() {
+		return new DefaultLobHandler();
+	}
+	
+	
 	/**
 	 * SqlSessionFactory 설정
 	 *
@@ -119,8 +123,8 @@ public class DatabaseConfig {
 		SqlSessionFactoryBean factoryBean = new SqlSessionFactoryBean();
 
 		factoryBean.setDataSource(dataSource);
-		factoryBean.setConfigLocation(applicationContext.getResource("classpath:mybatis/configuration.xml"));
-		factoryBean.setMapperLocations(applicationContext.getResources("classpath:mybatis/mappers/**/*.xml"));
+		factoryBean.setConfigLocation(applicationContext.getResource("classpath:batch/mybatis/configuration.xml"));
+		factoryBean.setMapperLocations(applicationContext.getResources("classpath:batch/mybatis/mapper/**/*.xml"));
 
 		return factoryBean;
 	}
