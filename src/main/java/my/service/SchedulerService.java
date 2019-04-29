@@ -15,6 +15,7 @@ import org.quartz.Scheduler;
 import org.quartz.Trigger;
 import org.quartz.TriggerBuilder;
 import org.quartz.TriggerKey;
+import org.springframework.batch.core.configuration.DuplicateJobException;
 import org.springframework.batch.core.configuration.JobRegistry;
 import org.springframework.batch.core.configuration.support.ReferenceJobFactory;
 import org.springframework.batch.core.launch.JobLauncher;
@@ -200,6 +201,13 @@ public class SchedulerService {
 		Scheduler scheduler = factory.getScheduler();
 		scheduler.scheduleJob(jobDetail, trigger);
 
+	}
+	
+	public void addJobRegistry(String jobId) throws DuplicateJobException {
+		org.springframework.batch.core.job.SimpleJob job = new org.springframework.batch.core.job.SimpleJob(jobId);
+		job.setJobRepository((JobRepository) jobRepository);
+		ReferenceJobFactory jobFactory = new ReferenceJobFactory((org.springframework.batch.core.Job)job);
+		jobRegistry.register(jobFactory);		
 	}
 	
 	public void removeJobSchedule(String jobId) throws Exception {

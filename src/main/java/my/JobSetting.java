@@ -19,6 +19,7 @@ import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.stereotype.Component;
 
 import my.job.SampleJob2;
+import my.job.cmn.JobLauncherDetails;
 import my.service.SchedulerService;
 
 /**
@@ -45,28 +46,25 @@ public class JobSetting {
 		//System.out.println(DateFormatUtils.format(new Date(),  "yyyy-MM-dd HH:mm:ss") + " new job called ");
 		log.info(" new job called ");
 		
-		
-		
 		JobDetail jobDetail = JobBuilder.newJob(SampleJob2.class)
 				.withIdentity(JobKey.jobKey(SampleJob2.class.getName()))
 				.storeDurably(true)
 				.build();
 		
-//		Trigger trigger = TriggerBuilder.newTrigger()
-//				.forJob(jobDetail)
-//				.startNow()
-//				.build();
-		
 		log.info("jobname:" + SampleJob2.class.getName());
 		
 		Trigger trigger = TriggerBuilder.newTrigger()
-		       .forJob(jobDetail)
+		       .forJob(JobBuilder.newJob(JobLauncherDetails.class)
+		    		   	.withIdentity(SampleJob2.class.getName())
+		    		   	.build())
 		       .withIdentity(TriggerKey.triggerKey(SampleJob2.class.getName())) // "testJob"
-		       .withSchedule(CronScheduleBuilder.cronSchedule("0/5 * * * * ?"))
+		       .withSchedule(CronScheduleBuilder.cronSchedule("0/10 * * * * ?"))
 		       .startNow()
 		       .build();
-
-//		schedulerService.addJobSchedule("SampleJob2", "0/30 * * * * ?");
+		
+		schedulerService.addJobRegistry("SampleJob");
+		schedulerService.addJobSchedule("SampleJob", "0/30 * * * * ?");
+		
 		schedulerService.addJobSchedule("macBndSyncJob", "0/30 * * * * ?");
 		
 
@@ -75,8 +73,8 @@ public class JobSetting {
 		//Scheduler scheduler = new StdSchedulerFactory().getScheduler();
 		Scheduler scheduler = factory.getScheduler();
 		scheduler.scheduleJob(jobDetail, trigger);
+		
 		List<JobExecutionContext> contexts = scheduler.getCurrentlyExecutingJobs();
-		//scheduler.getContext().
 		log.info (String.format( "size: %d", contexts.size()));
 		for (JobExecutionContext context : contexts ) {
 			log.info( String.format("%s : %s", context.getJobDetail().getKey().getName(), context.getJobRunTime()));

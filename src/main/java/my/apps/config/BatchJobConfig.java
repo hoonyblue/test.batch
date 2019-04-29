@@ -22,8 +22,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.lob.LobHandler;
 import org.springframework.transaction.PlatformTransactionManager;
 
-import egovframework.rte.bat.core.launch.support.EgovBatchRunner;
-
 @Configuration
 public class BatchJobConfig {
 
@@ -34,11 +32,11 @@ public class BatchJobConfig {
      *   <constructor-arg ref="jobRepository" />
      * </bean>
 	 */
-	@Bean(name="egovBatchRunner")
-	public EgovBatchRunner egovBatchRunner(JobOperator jobOperator, JobExplorer jobExplorer, 
-			JobRepository jobRepository) {
-		return new EgovBatchRunner(jobOperator, jobExplorer, jobRepository);
-	}
+//	@Bean(name="egovBatchRunner")
+//	public EgovBatchRunner egovBatchRunner(JobOperator jobOperator, JobExplorer jobExplorer, 
+//			JobRepository jobRepository) {
+//		return new EgovBatchRunner(jobOperator, jobExplorer, jobRepository);
+//	}
 	
 	/**
 //<bean id="jobLauncher" class="org.springframework.batch.core.launch.support.SimpleJobLauncher">
