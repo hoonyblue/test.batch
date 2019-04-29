@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.quartz.JobDetailFactoryBean;
 
-import egovframework.rte.bat.sample.scheduler.support.EgovJobLauncherDetails;
+import my.job.cmn.JobLauncherDetails;
 
 @Configuration
 public class SchedulerJobConfig {
@@ -17,7 +17,7 @@ public class SchedulerJobConfig {
 	@Bean(name="jobDetail")
 	public JobDetailFactoryBean jobDetail(JobRegistry jobRegistry, JobLauncher jobLauncher) {
 		JobDetailFactoryBean jobDetail = new JobDetailFactoryBean();
-		jobDetail.setJobClass(EgovJobLauncherDetails.class);
+		jobDetail.setJobClass(JobLauncherDetails.class);
 		jobDetail.setGroup("quartz-batch");
 		Map<String, Object> jobDataAsMap = new HashMap<String, Object>();
 		jobDataAsMap.put("jobName", "ibatisToDelimitedJob");

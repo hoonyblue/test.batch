@@ -4,8 +4,6 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 
-import my.job.SampleJob2;
-
 import org.apache.log4j.Logger;
 import org.quartz.CronScheduleBuilder;
 import org.quartz.JobBuilder;
@@ -20,9 +18,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.stereotype.Component;
 
+import my.job.SampleJob2;
+import my.service.SchedulerService;
+
 /**
  * 
- * @author »∆¿Ã
+ * @author gnsl
  *
  */
 @Component
@@ -33,6 +34,8 @@ public class JobSetting {
 	
 	@Autowired(required=true)
 	private SchedulerFactoryBean factory;
+	@Autowired
+	private SchedulerService schedulerService; 
 	
 	private static Logger log = Logger.getLogger(JobSetting.class);	
 	
@@ -63,6 +66,8 @@ public class JobSetting {
 		       .startNow()
 		       .build();
 
+//		schedulerService.addJobSchedule("SampleJob2", "0/30 * * * * ?");
+		schedulerService.addJobSchedule("macBndSyncJob", "0/30 * * * * ?");
 		
 
 		//config.sampleJobTrigger(jobDetail, 2000);

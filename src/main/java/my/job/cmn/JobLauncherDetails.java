@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package egovframework.rte.bat.sample.scheduler.support;
+package my.job.cmn;
 
 import java.util.Date;
 import java.util.Map;
@@ -43,14 +43,14 @@ import org.springframework.scheduling.quartz.QuartzJobBean;
  */
 
 
-public class EgovJobLauncherDetails extends QuartzJobBean {
+public class JobLauncherDetails extends QuartzJobBean {
 
 	/**
 	 * Special key in job data map for the name of a job to run.
 	 */
 	static final String JOB_NAME = "jobName";
 
-	private static Log log = LogFactory.getLog(EgovJobLauncherDetails.class);
+	private static Log log = LogFactory.getLog(JobLauncherDetails.class);
 
 	private JobLocator jobLocator;
 
@@ -72,7 +72,6 @@ public class EgovJobLauncherDetails extends QuartzJobBean {
 		this.jobLauncher = jobLauncher;
 	}
 
-	@SuppressWarnings("unchecked")
 	protected void executeInternal(JobExecutionContext context) {
 		Long timestamp = null;
 		Map<String, Object> jobDataMap = context.getMergedJobDataMap();

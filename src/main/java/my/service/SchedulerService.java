@@ -4,8 +4,6 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
-import my.job.SampleJob2;
-
 import org.apache.log4j.Logger;
 import org.quartz.CronScheduleBuilder;
 import org.quartz.Job;
@@ -26,7 +24,8 @@ import org.springframework.scheduling.quartz.JobDetailFactoryBean;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.stereotype.Service;
 
-import egovframework.rte.bat.sample.scheduler.support.EgovJobLauncherDetails;
+import my.job.SampleJob2;
+import my.job.cmn.JobLauncherDetails;
 
 /**
  * 
@@ -38,7 +37,7 @@ public class SchedulerService {
 	
 	@Autowired(required=true)
 	private SchedulerFactoryBean factory;
-
+	
 	private static Logger log = Logger.getLogger(SampleJob2.class);
 	
 	/**
@@ -61,7 +60,7 @@ public class SchedulerService {
 		@SuppressWarnings("unchecked")
 		JobDetail jobDetail = this.newJob((Class<? extends Job>) Class.forName(jobClass)); //SampleJob2.class);
 		Trigger trigger = this.newTrigger(jobDetail, jobId, cronexpr);
-
+		
 		Scheduler scheduler = factory.getScheduler();
 		scheduler.scheduleJob(jobDetail, trigger);
 		
@@ -113,6 +112,7 @@ public class SchedulerService {
 			       .build();		
 	}
 	
+	@SuppressWarnings("unused")
 	private void currentJob() throws Exception {
 		Scheduler scheduler = factory.getScheduler();
 		
@@ -177,7 +177,7 @@ public class SchedulerService {
 	public void addJobSchedule(String jobId, String cronExpr) throws Exception {
 
 		JobDetailFactoryBean jobfactory = new JobDetailFactoryBean();
-		jobfactory.setJobClass(EgovJobLauncherDetails.class);
+		jobfactory.setJobClass(JobLauncherDetails.class);
 		jobfactory.setGroup("quartz-batch");
 		jobfactory.setName(jobId);
 
@@ -191,10 +191,10 @@ public class SchedulerService {
 		log.debug(String.format("jobDetail : %s", jobDetail));
 		log.debug(String.format("jobName : %s", jobId));
 		
-		org.springframework.batch.core.job.SimpleJob job = new org.springframework.batch.core.job.SimpleJob(jobId);
-		job.setJobRepository((JobRepository) jobRepository);
-		ReferenceJobFactory jobFactory = new ReferenceJobFactory((org.springframework.batch.core.Job)job);
-		jobRegistry.register(jobFactory);
+//		org.springframework.batch.core.job.SimpleJob job = new org.springframework.batch.core.job.SimpleJob(jobId);
+//		job.setJobRepository((JobRepository) jobRepository);
+//		ReferenceJobFactory jobFactory = new ReferenceJobFactory((org.springframework.batch.core.Job)job);
+//		jobRegistry.register(jobFactory);
 		
 		Trigger trigger = newTrigger(jobDetail, jobId, cronExpr);		
 		Scheduler scheduler = factory.getScheduler();
