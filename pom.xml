@@ -7,8 +7,10 @@
 
   	<properties>
 		<spring.maven.artifact.version>3.2.9.RELEASE</spring.maven.artifact.version>
-		<batch.maven.artifact.version>2.1.9.RELEASE</batch.maven.artifact.version>
+		<batch.maven.artifact.version>3.0.10.RELEASE</batch.maven.artifact.version>
         <egovframework.rte.version>3.1.0</egovframework.rte.version>
+        <org.mybatis-version>3.2.8</org.mybatis-version>
+		<org.mybatis.spring-version>1.2.2</org.mybatis.spring-version>
 	</properties>
 	
 	<repositories>
@@ -96,6 +98,22 @@
 			<artifactId>hsqldb</artifactId>
 			<version>1.8.0.10</version>
 		</dependency>
+		<dependency>
+		    <groupId>org.postgresql</groupId>
+		    <artifactId>postgresql</artifactId>
+		    <version>9.4-1200-jdbc41</version><!--$NO-MVN-MAN-VER$-->
+		</dependency>		
+		<dependency>
+		  <groupId>org.bgee.log4jdbc-log4j2</groupId>
+		  <artifactId>log4jdbc-log4j2-jdbc4.1</artifactId>
+		  <version>1.16</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
+			<version>2.0</version><!--$NO-MVN-MAN-VER$-->
+		</dependency>				
 		
 		<dependency>
 		    <groupId>commons-lang</groupId>
@@ -114,13 +132,35 @@
             <version>6.1.1</version>
             <scope>test</scope>
         </dependency>
-  -->         
 		<dependency>
 			<groupId>egovframework.rte</groupId>
 			<artifactId>egovframework.rte.bat.core</artifactId>
 			<version>${egovframework.rte.version}</version>
 		</dependency>        
+ -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+			<version>3.2.9.RELEASE</version><!--$NO-MVN-MAN-VER$-->
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+			<version>3.2.9.RELEASE</version><!--$NO-MVN-MAN-VER$-->
+		</dependency> 
 
+ 		<dependency>
+			<groupId>org.springframework.batch</groupId>
+			<artifactId>spring-batch-core</artifactId>
+			<version>${batch.maven.artifact.version}</version><!--$NO-MVN-MAN-VER$-->
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.batch</groupId>
+			<artifactId>spring-batch-infrastructure</artifactId>
+			<version>${batch.maven.artifact.version}</version><!--$NO-MVN-MAN-VER$-->
+		</dependency>
+ 
+ 
         <dependency>
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjweaver</artifactId>
@@ -133,6 +173,18 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<mainClass>my.Application</mainClass>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+					<encoding>UTF-8</encoding>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>	
