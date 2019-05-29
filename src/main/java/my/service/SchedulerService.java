@@ -113,6 +113,7 @@ public class SchedulerService {
 			       .build();		
 	}
 	
+	@SuppressWarnings("unused")
 	private void currentJob() throws Exception {
 		Scheduler scheduler = factory.getScheduler();
 		

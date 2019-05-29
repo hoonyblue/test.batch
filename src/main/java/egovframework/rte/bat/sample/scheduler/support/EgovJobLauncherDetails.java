@@ -72,7 +72,6 @@ public class EgovJobLauncherDetails extends QuartzJobBean {
 		this.jobLauncher = jobLauncher;
 	}
 
-	@SuppressWarnings("unchecked")
 	protected void executeInternal(JobExecutionContext context) {
 		Long timestamp = null;
 		Map<String, Object> jobDataMap = context.getMergedJobDataMap();
