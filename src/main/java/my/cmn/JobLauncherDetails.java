@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package my.job.cmn;
+package my.cmn;
 
 import java.util.Date;
 import java.util.Map;
@@ -32,10 +32,10 @@ import org.springframework.scheduling.quartz.QuartzJobBean;
  * @author 배치실행개발팀
  * @since 2012. 07.25
  * @version 1.0
- * @see 
+ * @see
  *  <pre>
  *      개정이력(Modification Information)
- *   
+ *
  *   수정일      수정자           수정내용
  *  ------- -------- ---------------------------
  *  2012. 07.25  배치실행개발팀     최초 생성
@@ -49,11 +49,10 @@ public class JobLauncherDetails extends QuartzJobBean {
 	 * Special key in job data map for the name of a job to run.
 	 */
 	static final String JOB_NAME = "jobName";
-
+	private static final String TIMESTAMP = "timestamp";
 	private static Log log = LogFactory.getLog(JobLauncherDetails.class);
 
 	private JobLocator jobLocator;
-
 	private JobLauncher jobLauncher;
 
 	/**
@@ -76,18 +75,18 @@ public class JobLauncherDetails extends QuartzJobBean {
 		Long timestamp = null;
 		Map<String, Object> jobDataMap = context.getMergedJobDataMap();
 		String jobName = (String) jobDataMap.get(JOB_NAME);
-		
-		/* 
-		 * 주기적으로 실행가능하도록 하기 위해, JobParamter의 timestamp 값을 갱신한다. 
+
+		/*
+		 * 주기적으로 실행가능하도록 하기 위해, JobParamter의 timestamp 값을 갱신한다.
 		 */
-		if(jobDataMap.containsKey("timestamp")) {
-			jobDataMap.remove("timestamp");
+		if(jobDataMap.containsKey(TIMESTAMP)) {
+			jobDataMap.remove(TIMESTAMP);
 		}
 		timestamp = new Date().getTime();
-		jobDataMap.put("timestamp", timestamp);
-		
+		jobDataMap.put(TIMESTAMP, timestamp);
+
 		log.warn("Quartz trigger firing with Spring Batch jobName="+jobName);
-		
+
 		JobParameters jobParameters = getJobParametersFromJobMap(jobDataMap);
 		try {
 			jobLauncher.run(jobLocator.getJob(jobName), jobParameters);
@@ -100,7 +99,7 @@ public class JobLauncherDetails extends QuartzJobBean {
 	/*
 	 * Copy parameters that are of the correct type over to
 	 * {@link JobParameters}, ignoring jobName.
-	 * 
+	 *
 	 * @return a {@link JobParameters} instance
 	 */
 	private JobParameters getJobParametersFromJobMap(Map<String, Object> jobDataMap) {
