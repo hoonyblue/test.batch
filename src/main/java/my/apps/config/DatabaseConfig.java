@@ -33,23 +33,21 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.jdbc.support.lob.DefaultLobHandler;
 import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
 /*
  * Spring 프레임워크의 어노 테이션 기반 트랜잭션 관리를 사용할 수 있도록 한다.
  * <tx:annotation-driven>
  */
-//@EnableTransactionManagement
+@EnableTransactionManagement
 public class DatabaseConfig {
 
 	@Autowired
     ApplicationContext applicationContext;
-
 
 	/**
 	 * DataSource 설정
@@ -67,17 +65,17 @@ public class DatabaseConfig {
 	@Bean(name="dataSource")
 	public DataSource dataSource() {
 
-//		DriverManagerDataSource dataSource = new DriverManagerDataSource();
-//		dataSource.setDriverClassName("net.sf.log4jdbc.sql.jdbcapi.DriverSpy");
-//		dataSource.setUrl("jdbc:log4jdbc:postgresql://10.0.4.88:5432/ncms");
-//		dataSource.setUsername("ncms");
-//		dataSource.setPassword("ncms1216@");	
-		
+		DriverManagerDataSource dataSource = new DriverManagerDataSource();
+		dataSource.setDriverClassName("net.sf.log4jdbc.sql.jdbcapi.DriverSpy");
+		dataSource.setUrl("jdbc:log4jdbc:postgresql://10.0.4.88:5432/postgres");
+		dataSource.setUsername("postgres");
+		dataSource.setPassword("postgres");
+/**
 		EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
-		EmbeddedDatabase db = (EmbeddedDatabase) builder.setType(EmbeddedDatabaseType.HSQL)
+		EmbeddedDatabase dataSource = (EmbeddedDatabase) builder.setType(EmbeddedDatabaseType.HSQL)
 									.addScript("classpath:/db/sampledb.script").build();
-		
-		return db;
+ */
+		return dataSource;
 	}
 
 	/**
@@ -100,8 +98,7 @@ public class DatabaseConfig {
 	public DefaultLobHandler lobHandler() {
 		return new DefaultLobHandler();
 	}
-	
-	
+
 	/**
 	 * SqlSessionFactory 설정
 	 *

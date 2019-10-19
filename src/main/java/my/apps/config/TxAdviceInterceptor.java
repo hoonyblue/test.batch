@@ -4,7 +4,7 @@
  * <pre></pre>
  *
  * @filename TxAdviceInterceptor.java
- * 
+ *
  * @author gnsl
  * @lastmodifier gnsl
  * @created 2017. 10. 20.
@@ -56,8 +56,7 @@ public class TxAdviceInterceptor {
                 Collections.singletonList(new RollbackRuleAttribute(Exception.class)));
         transactionAttribute.setTimeout(TX_METHOD_TIMEOUT);
         source.setTransactionAttribute(transactionAttribute);
-        TransactionInterceptor txAdvice = new TransactionInterceptor(transactionManager, source);
-        return txAdvice;
+        return new TransactionInterceptor(transactionManager, source);
     }
 
     @Bean
@@ -66,5 +65,5 @@ public class TxAdviceInterceptor {
         pointcut.setExpression(AOP_POINTCUT_EXPRESSION);
         return new DefaultPointcutAdvisor(pointcut, txAdvice());
     }
-    
+
 }
