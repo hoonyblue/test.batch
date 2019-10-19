@@ -1,7 +1,8 @@
 server:
     port: 8081
 
-debug: enabled
+debug: 
+  true
 
 spring:
     datasource:
@@ -9,6 +10,23 @@ spring:
        username: sa
        password:
        driver-class-name: org.h2.Driver
-       
+    batch:
+      initializer:        enabled: false
+    
+logging:  config: classpath:log4j2.xml
+  file: logs/test-batch.log
+  level:
+    org.springframework: error    my : debug
+    jdbc: error
+    jdbc.sqltiming: info 
+
+      
 samplejob:
-    frequency: 2000
+    frequency: 20000
+    
+Couchdb:
+  Host: 10.0.4.73
+  Port: 5984
+  UserName: ncms
+  Password: ncms1216@
+    
