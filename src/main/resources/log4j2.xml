@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+    <Appenders>
+        <Console name="console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d %5p [%c][%M:%L] %m%n" />
+        </Console>
+        <RollingFile name="file" fileName="logs/test-batch.log" filePattern="logs/test-batch.log.%d{yyyyMMdd}">
+            <PatternLayout pattern="%d %5p [%c][%M:%L] %m%n" />
+            <Policies>
+                <TimeBasedTriggeringPolicy />
+            </Policies>
+            <DefaultRolloverStrategy>
+				<Delete basePath="logs" maxDepth="3">
+					<IfFileName glob="test-batch.log.*">
+						<IfLastModified age="20d">
+							<IfAny>
+								<IfAccumulatedFileSize exceeds = "500 MB" />
+								<IfAccumulatedFileCount exceeds = "10" />
+							</IfAny>
+						</IfLastModified>
+					</IfFileName>
+				</Delete>
+			</DefaultRolloverStrategy>
+		</RollingFile>
+
+        <Console name="my.job" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d %5p [%c][%M:%L] %m%n" />
+        </Console>
+    </Appenders>
+
+    <Loggers>
+        <Logger name="jdbc.sqlonly" level="ERROR" additivity="false">
+        		<AppenderRef ref="console" />
+            <AppenderRef ref="file" />
+        </Logger>
+		<Logger name="jdbc.sqltiming" level="INFO" additivity="false"><!-- sql logging -->
+			<AppenderRef ref="console" />
+			<AppenderRef ref="file" />
+		</Logger>
+		<Logger name="jdbc.audit" level="ERROR" additivity="false">
+			<AppenderRef ref="console" />
+			<AppenderRef ref="file" />
+		</Logger>
+		<Logger name="jdbc.resultset" level="ERROR" additivity="false">
+			<AppenderRef ref="console" />
+			<AppenderRef ref="file" />
+		</Logger>
+		<Logger name="jdbc.resultsettable" level="ERROR" additivity="false">
+			<AppenderRef ref="console" />
+			<AppenderRef ref="file" />
+		</Logger>
+		<Logger name="jdbc.connection" level="ERROR" additivity="false">
+			<AppenderRef ref="console" />
+			<AppenderRef ref="file" />
+		</Logger>
+
+
+		<Logger name="org.hibernate.validator" level="ERROR" additivity="false">
+			<AppenderRef ref="console" />
+			<AppenderRef ref="file" />
+		</Logger>
+		<Logger name="org.mybatis.spring" level="INFO" additivity="false">
+			<AppenderRef ref="console" />
+			<AppenderRef ref="file" />
+		</Logger>
+		<Logger name="springfox.documentation" level="ERROR" additivity="false">
+			<AppenderRef ref="console" />
+			<AppenderRef ref="file" />
+		</Logger>
+        <Logger name="egovframework" level="INFO" additivity="false">
+            <AppenderRef ref="file" />
+        </Logger>
+		<Logger name="org.springframework" level="INFO" additivity="false">
+			<AppenderRef ref="console" />
+			<AppenderRef ref="file" />
+		</Logger>
+		<Logger name="org.springframework.beans" level="WARN" additivity="false">
+			<AppenderRef ref="console" />
+			<AppenderRef ref="file" />
+		</Logger>
+		<Logger name="org.springframework.context" level="WARN" additivity="false">
+			<AppenderRef ref="console" />
+			<AppenderRef ref="file" />
+		</Logger>
+
+		<Logger name="org.apache.http" level="DEBUG" additivity="false">
+			<AppenderRef ref="file" />
+			<AppenderRef ref="console" />
+		</Logger>
+		<Logger name="org.quartz" level="INFO" additivity="false">
+			<AppenderRef ref="file" />
+			<AppenderRef ref="console" />
+		</Logger>
+
+
+		<Logger name="my.job" level="DEBUG" additivity="false">
+			<AppenderRef ref="console" />
+			<AppenderRef ref="file" />
+		</Logger>
+		<Logger name="my" level="DEBUG" additivity="false">
+			<AppenderRef ref="console" />
+			<AppenderRef ref="file" />
+		</Logger>
+
+		<Root level="DEBUG">
+			<AppenderRef ref="console" />
+            <AppenderRef ref="file" />
+        </Root>
+    </Loggers>
+
+</Configuration>
