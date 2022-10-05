@@ -27,7 +27,6 @@ import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.stereotype.Service;
 
 import my.cmn.JobLauncherDetails;
-import my.job.SampleJob2;
 
 /**
  *
@@ -40,7 +39,7 @@ public class SchedulerService {
 	@Autowired(required=true)
 	private SchedulerFactoryBean factory;
 
-	private static Logger log = Logger.getLogger(SampleJob2.class);
+	private static Logger log = Logger.getLogger(SchedulerService.class);
 
 	/**
 	 * job 추가
@@ -48,7 +47,7 @@ public class SchedulerService {
 	 * @param jobId
 	 * @param cronexpr
 	 */
-	public <T> String addJob(String jobClass, String jobId, String cronexpr) throws SchedulerException, ClassNotFoundException {
+	public String addJob(String jobClass, String jobId, String cronexpr) throws ClassNotFoundException, SchedulerException {
 		log.info("addJob : " + jobId);
 
 		/**

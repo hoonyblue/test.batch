@@ -1,106 +1,120 @@
 package my.job.config;
 
-
-import javax.annotation.Resource;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
+import org.springframework.batch.item.ItemProcessor;
+import org.springframework.batch.item.ItemReader;
+import org.springframework.batch.item.ItemWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import my.job.comp.macbnd.MacBndItemProcessor;
-import my.job.comp.macbnd.MacBndItemReader;
-import my.job.comp.macbnd.MacBndItemWriter;
-import my.job.comp.macbnd.vo.CfMacBndVO;
-import my.job.comp.macbnd.vo.MacBnd;
+import lombok.extern.slf4j.Slf4j;
+import my.job.test.MacBndItemReader;
 
-//@Slf4j
+@Slf4j
 @Configuration
 @EnableBatchProcessing
 public class MacBndSyncJobConfiguration {
 
+	/**
 	@Autowired
 	private JobBuilderFactory jobBuilderFactory;
+	 */
 	@Autowired
 	private StepBuilderFactory stepBuilderFactory;
-	@Resource(name="macBndItemReader")
-	private MacBndItemReader macBndItemReader;
-	@Resource(name="macBndItemProcessor")
-	private MacBndItemProcessor macBndItemProcessor;
-	@Resource(name="macBndItemWriter")
-	private MacBndItemWriter macBndItemWriter;
+//	private final Log log = LogFactory.getLog(getClass())
 
-	private final Logger log = LoggerFactory.getLogger(getClass());
 	private static final String FAILED = "FAILED";
+	/**
+	@Autowired
+	private MacBndItemReader macBndItemReader;
+	 */
 
 	@Bean
-	public Job macBndSyncJob() {
+	public Job macBndSyncJob(JobBuilderFactory jobBuilderFactory, MacBndItemReader macBndItemReader) {
 		return jobBuilderFactory.get("macBndSyncJob")
-				.start(macBndSyncJobDotMacBndSyncStep())
+				.start(macBndSyncJobMacBndSyncStep(macBndItemReader))
 					.on(FAILED)
 					.fail()
-				.from(macBndSyncJobDotMacBndSyncStep())
+				/**
+				.from(macBndSyncJobMacBndSyncStep(macBndItemReader))
 					.on("*")
-					.to(macBndSyncJobDotDeletedMacBndDataSyncStep())
+					.to(macBndSyncJobDeletedMacBndDataSyncStep()) */
+				.next(macBndSyncJobDeletedMacBndDataSyncStep())
 					.end()
 				.build();
 	}
 
 	@Bean
-//	@StepScope
-	public Step macBndSyncJobDotMacBndSyncStep() {
-		return stepBuilderFactory.get("macBndSyncJobDotMacBndSyncStep")
-/**
+	//@StepScope
+	public Step macBndSyncJobMacBndSyncStep(MacBndItemReader macBndItemReader) {
+		return stepBuilderFactory.get("macBndSyncJob_MacBndSyncStep")
+				/**
 				.tasklet((contribution, chunkContext) -> {
-					log.info(">>>>>>> This is macBndSyncJobDotMacBndSyncStep");
-					// Need logic
+					log.info(">>>>>>> This is macBndSyncJob_MacBndSyncStep");
 					contribution.setExitStatus(ExitStatus.FAILED);
 					return RepeatStatus.FINISHED;
-				})
- */
-				.<CfMacBndVO, MacBnd> chunk(2)
+				}) */
+				.chunk(1)
 					.reader(macBndItemReader)
-					.processor(macBndItemProcessor)
-					.writer(macBndItemWriter)
-					/**
-					.processor(item -> {
-						return new MacBnd();
-					})
-					.writer(items -> {
-						for (MacBnd item : items) {
-							log.info("writer.item: {}", item);
-						}
-					})
-					 */
+					.processor(processor())
+					.writer(writer())
+					.faultTolerant()
+					.skip(java.lang.Exception.class)
+					.skipLimit(100)
 				.build();
 	}
 
 	@Bean
-//	@StepScope
-	public Step macBndSyncJobDotDeletedMacBndDataSyncStep() {
-		return stepBuilderFactory.get("macBndSyncJobDotDeletedMacBndDataSyncStep")
+	//@StepScope
+	public Step macBndSyncJobDeletedMacBndDataSyncStep() {
+		return stepBuilderFactory.get("macBndSyncJob_deletedMacBndDataSyncStep")
 				.chunk(10000)
-					.reader(() -> {
-						return null;
-					})
+					.reader(() -> null)
 //					.processor(null)
 					.writer(items -> {
 						for (Object item : items) {
-							log.info("writer.item: {}", item);
+							log.debug("item: {}", item);
 						}
 					})
-					.exceptionHandler((context, throwable) -> {
+					.exceptionHandler((context, throwable) -> { // NOSONAR
 						log.debug(String.format("context: %s, throwable: %s", context, throwable));
+						/**
 						if (throwable instanceof java.lang.Exception) {
-						}
+						} */
 					})
 				.build();
 
+	}
+
+	@Bean
+	public ItemReader<Object> reader() {
+		return () -> {
+			log.debug("item reader...");
+			return null;
+		};
+	}
+
+	@Bean
+	public ItemProcessor<Object, Object> processor() {
+		return item -> {
+			log.debug("item processor...");
+			return null;
+		};
+	}
+
+	@Bean
+	public ItemWriter<Object> writer() {
+		return items -> {
+			for (Object item : items) {
+				//System.out.println(String.format("item: %s", item))
+				//log.debug(String.format("item: %s", item))
+				log.debug("item: {}", item);
+			}
+		};
 	}
 }
