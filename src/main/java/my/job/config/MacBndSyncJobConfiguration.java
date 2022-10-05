@@ -1,10 +1,10 @@
 package my.job.config;
 
 
-import java.util.HashMap;
+import javax.annotation.Resource;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
@@ -14,7 +14,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import my.job.test.MacBndItemReader;
+import my.job.comp.macbnd.MacBndItemProcessor;
+import my.job.comp.macbnd.MacBndItemReader;
+import my.job.comp.macbnd.MacBndItemWriter;
+import my.job.comp.macbnd.vo.CfMacBndVO;
+import my.job.comp.macbnd.vo.MacBnd;
 
 //@Slf4j
 @Configuration
@@ -25,62 +29,70 @@ public class MacBndSyncJobConfiguration {
 	private JobBuilderFactory jobBuilderFactory;
 	@Autowired
 	private StepBuilderFactory stepBuilderFactory;
-	private final Log log = LogFactory.getLog(getClass());
-	
-	private static final String FAILED = "FAILED";
-	
-	@Autowired
+	@Resource(name="macBndItemReader")
 	private MacBndItemReader macBndItemReader;
-	
+	@Resource(name="macBndItemProcessor")
+	private MacBndItemProcessor macBndItemProcessor;
+	@Resource(name="macBndItemWriter")
+	private MacBndItemWriter macBndItemWriter;
+
+	private final Logger log = LoggerFactory.getLogger(getClass());
+	private static final String FAILED = "FAILED";
+
 	@Bean
 	public Job macBndSyncJob() {
-		return (Job) jobBuilderFactory.get("macBndSyncJob")
-				.start(macBndSyncJob_MacBndSyncStep())
+		return jobBuilderFactory.get("macBndSyncJob")
+				.start(macBndSyncJobDotMacBndSyncStep())
 					.on(FAILED)
 					.fail()
-				.from(macBndSyncJob_MacBndSyncStep())
+				.from(macBndSyncJobDotMacBndSyncStep())
 					.on("*")
-					.to(macBndSyncJob_deletedMacBndDataSyncStep())
+					.to(macBndSyncJobDotDeletedMacBndDataSyncStep())
 					.end()
 				.build();
 	}
-	
-	@SuppressWarnings("rawtypes")
+
 	@Bean
 //	@StepScope
-	public Step macBndSyncJob_MacBndSyncStep() {
-		return stepBuilderFactory.get("macBndSyncJob_MacBndSyncStep")
-//				.tasklet((contribution, chunkContext) -> {
-//					log.info(">>>>>>> This is macBndSyncJob_MacBndSyncStep");
-//					// TODO logic
-//					contribution.setExitStatus(ExitStatus.FAILED);
-//					return RepeatStatus.FINISHED;
-//				})
-				.chunk(1)
+	public Step macBndSyncJobDotMacBndSyncStep() {
+		return stepBuilderFactory.get("macBndSyncJobDotMacBndSyncStep")
+/**
+				.tasklet((contribution, chunkContext) -> {
+					log.info(">>>>>>> This is macBndSyncJobDotMacBndSyncStep");
+					// Need logic
+					contribution.setExitStatus(ExitStatus.FAILED);
+					return RepeatStatus.FINISHED;
+				})
+ */
+				.<CfMacBndVO, MacBnd> chunk(2)
 					.reader(macBndItemReader)
-					.processor((item) -> {
-						return new HashMap();
+					.processor(macBndItemProcessor)
+					.writer(macBndItemWriter)
+					/**
+					.processor(item -> {
+						return new MacBnd();
 					})
-					.writer((items) -> {
-						for (Object item : items) {
-							System.out.println(String.format("item: %s", item));
+					.writer(items -> {
+						for (MacBnd item : items) {
+							log.info("writer.item: {}", item);
 						}
 					})
+					 */
 				.build();
 	}
-	
+
 	@Bean
 //	@StepScope
-	public Step macBndSyncJob_deletedMacBndDataSyncStep() {
-		return stepBuilderFactory.get("macBndSyncJob_deletedMacBndDataSyncStep")
+	public Step macBndSyncJobDotDeletedMacBndDataSyncStep() {
+		return stepBuilderFactory.get("macBndSyncJobDotDeletedMacBndDataSyncStep")
 				.chunk(10000)
 					.reader(() -> {
 						return null;
 					})
 //					.processor(null)
-					.writer((items) -> {
+					.writer(items -> {
 						for (Object item : items) {
-							System.out.println(String.format("item: %s", item));
+							log.info("writer.item: {}", item);
 						}
 					})
 					.exceptionHandler((context, throwable) -> {
@@ -89,6 +101,6 @@ public class MacBndSyncJobConfiguration {
 						}
 					})
 				.build();
-		
+
 	}
 }

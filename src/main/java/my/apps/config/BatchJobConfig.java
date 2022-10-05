@@ -32,16 +32,18 @@ public class BatchJobConfig {
      *   <constructor-arg ref="jobRepository" />
      * </bean>
 	 */
-//	@Bean(name="egovBatchRunner")
-//	public EgovBatchRunner egovBatchRunner(JobOperator jobOperator, JobExplorer jobExplorer, 
-//			JobRepository jobRepository) {
-//		return new EgovBatchRunner(jobOperator, jobExplorer, jobRepository);
-//	}
-	
 	/**
-//<bean id="jobLauncher" class="org.springframework.batch.core.launch.support.SimpleJobLauncher">
-//	<property name="jobRepository" ref="jobRepository" />
-//</bean>
+	@Bean(name="egovBatchRunner")
+	public EgovBatchRunner egovBatchRunner(JobOperator jobOperator, JobExplorer jobExplorer,
+			JobRepository jobRepository) {
+		return new EgovBatchRunner(jobOperator, jobExplorer, jobRepository);
+	}
+ */
+
+	/**
+     * <bean id="jobLauncher" class="org.springframework.batch.core.launch.support.SimpleJobLauncher">
+     * 	<property name="jobRepository" ref="jobRepository" />
+     * </bean>
      */
 	@Bean(name="jobLauncher")
 	public SimpleJobLauncher jobLauncher(JobRepository jobRepository) {
@@ -49,7 +51,7 @@ public class BatchJobConfig {
 		jobLauncher.setJobRepository(jobRepository);
 		return jobLauncher;
 	}
-	
+
 	/**
 	 * <bean class="org.springframework.batch.core.configuration.support.JobRegistryBeanPostProcessor">
 	 *    <property name="jobRegistry" ref="jobRegistry" />
@@ -61,7 +63,7 @@ public class BatchJobConfig {
 		jobRegistryBeanPostProcessor.setJobRegistry(jobRegistry);
 		return jobRegistryBeanPostProcessor;
 	}
-	
+
 	/**
 	 * <!-- cubrid usage - comment -->
 	 * <bean id="jobRepository" class="org.springframework.batch.core.repository.support.JobRepositoryFactoryBean"
@@ -69,16 +71,19 @@ public class BatchJobConfig {
 	 * 	 p:lobHandler-ref="lobHandler" />
 	 */
 	@Bean(name="jobRepository")
-	public JobRepositoryFactoryBean jobRepository(DataSource dataSource, 
+	public JobRepositoryFactoryBean jobRepository(DataSource dataSource,
 			PlatformTransactionManager transactionManager,
 			LobHandler lobHandler) {
 		JobRepositoryFactoryBean jobRepository = new JobRepositoryFactoryBean();
 		jobRepository.setDataSource(dataSource);
+		jobRepository.setDatabaseType("POSTGRESQL");
 		jobRepository.setTransactionManager(transactionManager);
+		jobRepository.setIsolationLevelForCreate("ISOLATION_READ_COMMITTED"); //ISOLATION_REPEATABLE_READ
+		//jobRepository.setTablePrefix("BATCH_")
 		jobRepository.setLobHandler(lobHandler);
 		return jobRepository;
 	}
-	
+
 	/**
 	 * <bean id="jobOperator" class="org.springframework.batch.core.launch.support.SimpleJobOperator"
 	 *   p:jobLauncher-ref="jobLauncher" p:jobExplorer-ref="jobExplorer"
@@ -89,10 +94,10 @@ public class BatchJobConfig {
 			JobRepository jobRepository, JobRegistry jobRegistry) {
 		SimpleJobOperator jobOperator = new SimpleJobOperator();
 		jobOperator.setJobLauncher(jobLauncher);
-		jobOperator.setJobExplorer(jobExplorer); 
+		jobOperator.setJobExplorer(jobExplorer);
 		jobOperator.setJobRepository(jobRepository);
 		jobOperator.setJobRegistry(jobRegistry);
-		
+
 		return jobOperator;
 	}
 
@@ -106,7 +111,7 @@ public class BatchJobConfig {
 		jobExplorer.setDataSource(dataSource);
 		return jobExplorer;
 	}
-	
+
 	/**
 	 * <bean id="jobRegistry" class="org.springframework.batch.core.configuration.support.MapJobRegistry" />
 	 */
@@ -126,18 +131,16 @@ public class BatchJobConfig {
 		jdbcTemplate.setDataSource(dataSource);
 		return jdbcTemplate;
 	}
-	
+
 	@Bean(name="jobBuilderFactory")
 	public JobBuilderFactory jobBuilderFactory(@Qualifier("jobRepository")JobRepository jobRepository) {
-		JobBuilderFactory jobBuilderFactory = new JobBuilderFactory(jobRepository);
-		return jobBuilderFactory;
+		return new JobBuilderFactory(jobRepository);
 	}
-	
+
 	@Bean(name="stepBuilderFactory")
-	public StepBuilderFactory stepBuilderFactory(JobRepository jobRepository, 
+	public StepBuilderFactory stepBuilderFactory(JobRepository jobRepository,
 				PlatformTransactionManager transactionManager) {
-		StepBuilderFactory stepBuilderFactory = new StepBuilderFactory(jobRepository, transactionManager);
-		return stepBuilderFactory;
+		return new StepBuilderFactory(jobRepository, transactionManager);
 	}
-	
+
 }

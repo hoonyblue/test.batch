@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.quartz.JobDetailFactoryBean;
 
-import my.job.cmn.JobLauncherDetails;
+import my.cmn.JobLauncherDetails;
 
 @Configuration
 public class SchedulerJobConfig {
@@ -19,12 +19,12 @@ public class SchedulerJobConfig {
 		JobDetailFactoryBean jobDetail = new JobDetailFactoryBean();
 		jobDetail.setJobClass(JobLauncherDetails.class);
 		jobDetail.setGroup("quartz-batch");
-		Map<String, Object> jobDataAsMap = new HashMap<String, Object>();
+		Map<String, Object> jobDataAsMap = new HashMap<>();
 		jobDataAsMap.put("jobName", "ibatisToDelimitedJob");
 		jobDataAsMap.put("jobLauncher", jobLauncher);
 		jobDataAsMap.put("jobLocator", jobRegistry);
 		jobDetail.setJobDataAsMap(jobDataAsMap);
-		
+
 		return jobDetail;
 	}
 }

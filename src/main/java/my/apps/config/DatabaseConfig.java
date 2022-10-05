@@ -1,5 +1,5 @@
-/*
- * copyright 2016
+/**
+ * copyright 2016 NCIS Cloud Portal System
  * @description
  * <pre></pre>
  *
@@ -64,7 +64,7 @@ public class DatabaseConfig {
 		dataSource.setUrl("jdbc:log4jdbc:postgresql://192.168.10.10:5432/postgres");
 		dataSource.setUsername("ncms");
 		dataSource.setPassword("ncms");
-		
+
 //		EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
 //		EmbeddedDatabase dataSource = (EmbeddedDatabase) builder.setType(EmbeddedDatabaseType.HSQL)
 //									.addScript("classpath:/db/sampledb.script").build();
