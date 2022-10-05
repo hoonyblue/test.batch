@@ -1,20 +1,14 @@
-/**
- * copyright 2016 NCIS Cloud Portal System
+/*
+ * copyright 2016
  * @description
  * <pre></pre>
  *
  * @filename DatabaseConfig.java
  *
- * @author 최진호
- * @lastmodifier 최진호
+ * @author
+ * @lastmodifier
  * @created 2016. 10. 4.
  * @lastmodified 2016. 10. 4.
- *
- * @history
- * -----------------------------------------------------------
- * Date         author         ver            Description
- * -----------------------------------------------------------
- * 2016. 10. 4.     최진호         v1.0             최초생성
  *
  */
 package my.apps.config;
@@ -33,9 +27,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.jdbc.support.lob.DefaultLobHandler;
 import org.springframework.transaction.PlatformTransactionManager;
 
@@ -67,17 +59,16 @@ public class DatabaseConfig {
 	@Bean(name="dataSource")
 	public DataSource dataSource() {
 
-//		DriverManagerDataSource dataSource = new DriverManagerDataSource();
-//		dataSource.setDriverClassName("net.sf.log4jdbc.sql.jdbcapi.DriverSpy");
-//		dataSource.setUrl("jdbc:log4jdbc:postgresql://10.0.4.88:5432/ncms");
-//		dataSource.setUsername("ncms");
-//		dataSource.setPassword("ncms1216@");	
+		DriverManagerDataSource dataSource = new DriverManagerDataSource();
+		dataSource.setDriverClassName("net.sf.log4jdbc.sql.jdbcapi.DriverSpy");
+		dataSource.setUrl("jdbc:log4jdbc:postgresql://192.168.10.10:5432/postgres");
+		dataSource.setUsername("ncms");
+		dataSource.setPassword("ncms");
 		
-		EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
-		EmbeddedDatabase db = (EmbeddedDatabase) builder.setType(EmbeddedDatabaseType.HSQL)
-									.addScript("classpath:/db/sampledb.script").build();
-		
-		return db;
+//		EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
+//		EmbeddedDatabase dataSource = (EmbeddedDatabase) builder.setType(EmbeddedDatabaseType.HSQL)
+//									.addScript("classpath:/db/sampledb.script").build();
+		return dataSource;
 	}
 
 	/**
