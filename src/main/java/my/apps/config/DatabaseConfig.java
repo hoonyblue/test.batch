@@ -62,8 +62,8 @@ public class DatabaseConfig {
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
 		dataSource.setDriverClassName("net.sf.log4jdbc.sql.jdbcapi.DriverSpy");
 		dataSource.setUrl("jdbc:log4jdbc:postgresql://192.168.10.10:5432/postgres");
-		dataSource.setUsername("ncms");
-		dataSource.setPassword("ncms");
+		dataSource.setUsername("postgres");
+		dataSource.setPassword("postgres");
 
 //		EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
 //		EmbeddedDatabase dataSource = (EmbeddedDatabase) builder.setType(EmbeddedDatabaseType.HSQL)
