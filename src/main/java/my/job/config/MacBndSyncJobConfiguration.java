@@ -13,23 +13,25 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import lombok.extern.slf4j.Slf4j;
-import my.job.test.MacBndItemReader;
+import my.job.comp.macbnd.MacBndItemReader;
+
+import javax.annotation.Resource;
 
 @Slf4j
 @Configuration
 @EnableBatchProcessing
 public class MacBndSyncJobConfiguration {
 
-	/**
+	/*
 	@Autowired
 	private JobBuilderFactory jobBuilderFactory;
 	 */
-	@Autowired
+	@Resource(name="stepBuilderFactory")
 	private StepBuilderFactory stepBuilderFactory;
 //	private final Log log = LogFactory.getLog(getClass())
 
 	private static final String FAILED = "FAILED";
-	/**
+	/*
 	@Autowired
 	private MacBndItemReader macBndItemReader;
 	 */
@@ -40,7 +42,7 @@ public class MacBndSyncJobConfiguration {
 				.start(macBndSyncJobMacBndSyncStep(macBndItemReader))
 					.on(FAILED)
 					.fail()
-				/**
+				/*
 				.from(macBndSyncJobMacBndSyncStep(macBndItemReader))
 					.on("*")
 					.to(macBndSyncJobDeletedMacBndDataSyncStep()) */
@@ -53,7 +55,7 @@ public class MacBndSyncJobConfiguration {
 	//@StepScope
 	public Step macBndSyncJobMacBndSyncStep(MacBndItemReader macBndItemReader) {
 		return stepBuilderFactory.get("macBndSyncJob_MacBndSyncStep")
-				/**
+				/*
 				.tasklet((contribution, chunkContext) -> {
 					log.info(">>>>>>> This is macBndSyncJob_MacBndSyncStep");
 					contribution.setExitStatus(ExitStatus.FAILED);
@@ -83,7 +85,7 @@ public class MacBndSyncJobConfiguration {
 					})
 					.exceptionHandler((context, throwable) -> { // NOSONAR
 						log.debug(String.format("context: %s, throwable: %s", context, throwable));
-						/**
+						/*
 						if (throwable instanceof java.lang.Exception) {
 						} */
 					})
