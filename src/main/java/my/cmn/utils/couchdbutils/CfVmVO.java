@@ -1,14 +1,7 @@
-/**
- *
- */
 package my.cmn.utils.couchdbutils;
 
 import java.math.BigDecimal;
 
-/**
- * @author 양정순
- *
- */
 public class CfVmVO {
 
 	private String regionId;    /* 센터 */

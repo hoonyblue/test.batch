@@ -5,16 +5,11 @@
  *
  * @filename RestUtil.java
  *
- * @author 박봉춘
- * @lastmodifier 박봉춘
+ * @author bcpark
+ * @lastmodifier bcpark
  * @created 2016. 10. 14.
  * @lastmodified 2016. 10. 14.
- *
- * @history
- * -----------------------------------------------------------
- * Date         author         ver            Description
- * -----------------------------------------------------------
- * 2016. 10. 14.     박봉춘         v1.0             최초생성
+
  *
  */
 package my.cmn.utils;

@@ -65,7 +65,7 @@ public class Database {
 	 * @param json
 	 * @param session
 	 */
-	Database(JSONObject json, Session session) {
+	Database(JSONObject json, Session session) throws JSONException {
 		name = json.getString("db_name");
 		documentCount = json.getInt("doc_count");
 		this.session = session;
@@ -287,10 +287,7 @@ public class Database {
 
 	/**
 	 * Runs a view, appending "_view" to the request if isPermanentView is true.
-	 * *
 	 *
-	 * @param view
-	 * @param isPermanentView
 	 * @return
 	 */
 	public JSONObject getStatus() {

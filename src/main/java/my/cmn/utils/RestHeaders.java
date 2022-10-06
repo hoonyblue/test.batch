@@ -1,21 +1,15 @@
-/**
+/*
  * copyright 2016 NCIS Cloud Portal System
  * @description
  * <pre></pre>
  *
  * @filename RestHeaders.java
  *
- * @author 최진호
- * @lastmodifier 최진호
+ * @author jhchoi
+ * @lastmodifier jhchoi
  * @created 2016. 10. 13.
  * @lastmodified 2016. 10. 13.
- *
- * @history
- * -----------------------------------------------------------
- * Date         author         ver            Description
- * -----------------------------------------------------------
- * 2016. 10. 13.     최진호         v1.0             최초생성
- * 2018. 12. 20.     yhlee   v1.1             areaId, networkId, managerId에 대한 setter 일부 추가
+
  *
  */
 package my.cmn.utils;

@@ -1,7 +1,6 @@
 package my.controller;
 
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -9,11 +8,17 @@ import org.springframework.web.bind.annotation.RestController;
 import my.job.SampleJob2;
 import my.service.SchedulerService;
 
+import javax.annotation.Resource;
+
+/**
+ * 테스트 Rest Controller
+ *
+ * @author yhlee
+ */
 @RestController
 public class MyController {
 
-	@Autowired
-	SchedulerService service;
+	@Resource(name="schedulerService") SchedulerService service;
 
 	private static Logger log = Logger.getLogger(MyController.class);
 
@@ -23,7 +28,7 @@ public class MyController {
 		log.info("test");
 
 		try {
-			service.removeJob(SampleJob2.class.getName()); //"SampleJob2")
+			service.removeJob(SampleJob2.class.getName()); //"SampleJob2"
 			log.info("del job");
 			String addjob = service.addJob("my.job.SampleJob2", SampleJob2.class.getName(), "0/10 * * * * ?");
 			log.info("add job: " + addjob);

@@ -64,7 +64,6 @@ public class CouchResponse {
 	 * First, it reads the body (hence the IOException) from the method
 	 * Next, it checks the status codes to determine if the request was successful.
 	 * If there was an error, it parses the error codes.
-	 * @param method
 	 * @throws IOException
 	 */
 	CouchResponse(HttpRequestBase req, HttpResponse response)
