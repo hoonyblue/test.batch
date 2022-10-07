@@ -11,7 +11,7 @@
 <!-- 		<spring.maven.artifact.version>4.3.4.RELEASE</spring.maven.artifact.version> -->
 		<spring.maven.artifact.version>5.2.5.RELEASE</spring.maven.artifact.version>
 <!-- 		<batch.maven.artifact.version>3.0.10.RELEASE</batch.maven.artifact.version> -->
-		<batch.maven.artifact.version>4.2.1.RELEASE</batch.maven.artifact.version>
+		<batch.maven.artifact.version>4.2.3.RELEASE</batch.maven.artifact.version>
 		<spring.boot.maven.artifact.version>2.2.6.RELEASE</spring.boot.maven.artifact.version>
         <egovframework.rte.version>3.1.0</egovframework.rte.version>
         <org.mybatis-version>3.2.8</org.mybatis-version>
