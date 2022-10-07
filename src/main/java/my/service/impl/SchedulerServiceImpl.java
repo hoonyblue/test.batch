@@ -10,6 +10,8 @@ import org.springframework.batch.core.configuration.support.ReferenceJobFactory;
 import org.springframework.batch.core.job.SimpleJob;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.batch.core.repository.JobRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.scheduling.quartz.JobDetailFactoryBean;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.stereotype.Service;
@@ -25,12 +27,15 @@ import java.util.Map;
  * @author yhlee
  *
  */
-@Service
+@Service("schedulerService")
 public class SchedulerServiceImpl implements SchedulerService {
 
-	@Resource(name="schedulerFactoryBean") private SchedulerFactoryBean factory;
+	//@Resource(name="schedulerFactoryBean") private SchedulerFactoryBean factory;
+	@SuppressWarnings("SpringJavaAutowiredFieldsWarningInspection")
+	@Qualifier("schedulerFactoryBean")
+	@Autowired private SchedulerFactoryBean factory;
 
-	@Resource(name="jobRepository") private JobRegistry jobRegistry; // MapJobRegistry
+	@Resource(name="jobRegistry") private JobRegistry jobRegistry; // MapJobRegistry
 	@Resource(name="jobLauncher")  private JobLauncher jobLauncher; // SimpleJobLauncher
 	@Resource(name="jobRepository") private JobRepository jobRepository; //JobRepositoryFactoryBean
 

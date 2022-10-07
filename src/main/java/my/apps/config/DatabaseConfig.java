@@ -61,9 +61,9 @@ public class DatabaseConfig {
 
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
 		dataSource.setDriverClassName("net.sf.log4jdbc.sql.jdbcapi.DriverSpy");
-		dataSource.setUrl("jdbc:log4jdbc:postgresql://192.168.10.10:5432/postgres");
-		dataSource.setUsername("postgres");
-		dataSource.setPassword("postgres");
+		dataSource.setUrl("jdbc:log4jdbc:postgresql://192.168.95.131:5432/mcloud");
+		dataSource.setUsername("mcloud");
+		dataSource.setPassword("mcloud");
 
 //		EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
 //		EmbeddedDatabase dataSource = (EmbeddedDatabase) builder.setType(EmbeddedDatabaseType.HSQL)

@@ -5,8 +5,8 @@
  *
  * @filename CommonConfig.java
  *
- * @author 최진호
- * @lastmodifier 최진호
+ * @author jhchoi
+ * @lastmodifier jhchoi
  * @created 2016. 10. 4.
  * @lastmodified 2016. 10. 4.
  *
@@ -14,7 +14,7 @@
  * -----------------------------------------------------------
  * Date         author         ver            Description
  * -----------------------------------------------------------
- * 2016. 10. 4.     최진호         v1.0             최초생성
+ * 2016. 10. 4.     jhchoi         v1.0             최초생성
  *
  */
 package my.apps.config;

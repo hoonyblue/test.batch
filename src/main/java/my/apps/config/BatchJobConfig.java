@@ -76,7 +76,7 @@ public class BatchJobConfig {
 			LobHandler lobHandler) {
 		JobRepositoryFactoryBean jobRepository = new JobRepositoryFactoryBean();
 		jobRepository.setDataSource(dataSource);
-		jobRepository.setDatabaseType("POSTGRESQL");
+		//jobRepository.setDatabaseType("POSTGRESQL");
 		jobRepository.setTransactionManager(transactionManager);
 		jobRepository.setIsolationLevelForCreate("ISOLATION_READ_COMMITTED"); //ISOLATION_REPEATABLE_READ
 		//jobRepository.setTablePrefix("BATCH_")
