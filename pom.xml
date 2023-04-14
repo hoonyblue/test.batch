@@ -299,7 +299,7 @@
 		<dependency>
 			<groupId>org.json</groupId>
 			<artifactId>json</artifactId>
-			<version>20140107</version><!--$NO-MVN-MAN-VER$-->
+			<version>20230227</version><!--$NO-MVN-MAN-VER$-->
 		</dependency>
 
 	</dependencies>
