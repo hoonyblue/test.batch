@@ -1,9 +1,17 @@
 package my.job.comp.macbnd.vo;
 
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 import my.job.cmn.CfBaseVO;
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
+
 import java.math.BigDecimal;
 
 
+@Builder
+@Getter @Setter
 public class CfMacBndVO extends CfBaseVO {
 
 	private String regionId;      /* 센터 */
@@ -19,74 +27,8 @@ public class CfMacBndVO extends CfBaseVO {
 
 	private BigDecimal macBndSeq ;
 
-
-	public String getRegionId() {
-		return regionId;
-	}
-	public void setRegionId(String regionId) {
-		this.regionId = regionId;
-	}
-	public String getZoneId() {
-		return zoneId;
-	}
-	public void setZoneId(String zoneId) {
-		this.zoneId = zoneId;
-	}
-	public String getNetId() {
-		return netId;
-	}
-	public void setNetId(String netId) {
-		this.netId = netId;
-	}
-	public String getRsrcPoolId() {
-		return rsrcPoolId;
-	}
-	public void setRsrcPoolId(String rsrcPoolId) {
-		this.rsrcPoolId = rsrcPoolId;
-	}
-	public String getMacBndUuid() {
-		return macBndUuid;
-	}
-	public void setMacBndUuid(String macBndUuid) {
-		this.macBndUuid = macBndUuid;
-	}
-	public String getMacBndNm() {
-		return macBndNm;
-	}
-	public void setMacBndNm(String macBndNm) {
-		this.macBndNm = macBndNm;
-	}
-	public String getDc() {
-		return dc;
-	}
-	public void setDc(String dc) {
-		this.dc = dc;
-	}
-	public String getMacStrtAddr() {
-		return macStrtAddr;
-	}
-	public void setMacStrtAddr(String macStrtAddr) {
-		this.macStrtAddr = macStrtAddr;
-	}
-	public String getMacEndAddr() {
-		return macEndAddr;
-	}
-	public void setMacEndAddr(String macEndAddr) {
-		this.macEndAddr = macEndAddr;
-	}
-	public String getCreDt() {
-		return creDt;
-	}
-	public void setCreDt(String creDt) {
-		this.creDt = creDt;
-	}
-	public BigDecimal getMacBndSeq()
-	{
-		return macBndSeq;
-	}
-	public void setMacBndSeq(BigDecimal macBndSeq)
-	{
-		this.macBndSeq = macBndSeq;
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
 	}
 
 }
