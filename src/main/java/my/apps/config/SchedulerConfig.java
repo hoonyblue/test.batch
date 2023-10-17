@@ -4,7 +4,6 @@ import lombok.extern.slf4j.Slf4j;
 import my.job.SampleJob;
 import my.spring.AutowireSpringBeanJobFactory;
 import org.apache.commons.lang.time.DateFormatUtils;
-import org.quartz.Job;
 import org.quartz.JobDetail;
 import org.quartz.SimpleTrigger;
 import org.quartz.Trigger;
