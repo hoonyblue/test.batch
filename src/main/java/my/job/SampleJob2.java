@@ -1,13 +1,12 @@
 package my.job;
 
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
+@Slf4j
 public class SampleJob2 implements Job {
-	
-	private static Logger log = Logger.getLogger(SampleJob2.class);
 	
 	public void execute(JobExecutionContext paramJobExecutionContext)
 		throws JobExecutionException {

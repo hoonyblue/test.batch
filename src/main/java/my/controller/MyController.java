@@ -1,6 +1,6 @@
 package my.controller;
 
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,12 +15,12 @@ import javax.annotation.Resource;
  *
  * @author yhlee
  */
+@Slf4j
 @RestController
 public class MyController {
 
 	@Resource(name="schedulerService") SchedulerService service;
-
-	private static Logger log = Logger.getLogger(MyController.class);
+	//private static Logger log = Logger.getLogger(MyController.class);
 
 	@GetMapping("/")
 	public @ResponseBody String index() {

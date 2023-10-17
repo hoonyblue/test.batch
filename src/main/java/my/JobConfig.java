@@ -1,9 +1,9 @@
 package my;
 
+import lombok.extern.slf4j.Slf4j;
 import my.cmn.JobLauncherDetails;
 import my.job.SampleJob2;
 import my.service.SchedulerService;
-import org.apache.log4j.Logger;
 import org.quartz.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -20,6 +20,7 @@ import java.util.List;
  * @author gnsl
  *
  */
+@Slf4j
 @Component
 public class JobConfig {
 
@@ -31,8 +32,6 @@ public class JobConfig {
 	@Qualifier("schedulerFactoryBean")
 	@Autowired private SchedulerFactoryBean factory;
 	@Resource(name="schedulerService") private SchedulerService schedulerService;
-
-	private static Logger log = Logger.getLogger(JobConfig.class);
 
 	//@PostConstruct
 	public void test() throws SchedulerException {

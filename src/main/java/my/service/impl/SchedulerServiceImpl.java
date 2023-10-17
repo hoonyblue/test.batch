@@ -1,8 +1,8 @@
 package my.service.impl;
 
+import lombok.extern.slf4j.Slf4j;
 import my.cmn.JobLauncherDetails;
 import my.service.SchedulerService;
-import org.apache.log4j.Logger;
 import org.quartz.*;
 import org.springframework.batch.core.configuration.DuplicateJobException;
 import org.springframework.batch.core.configuration.JobRegistry;
@@ -27,6 +27,7 @@ import java.util.Map;
  * @author yhlee
  *
  */
+@Slf4j
 @Service("schedulerService")
 public class SchedulerServiceImpl implements SchedulerService {
 
@@ -38,8 +39,6 @@ public class SchedulerServiceImpl implements SchedulerService {
 	@Resource(name="jobRegistry") private JobRegistry jobRegistry; // MapJobRegistry
 	@Resource(name="jobLauncher")  private JobLauncher jobLauncher; // SimpleJobLauncher
 	@Resource(name="jobRepository") private JobRepository jobRepository; //JobRepositoryFactoryBean
-
-	private static final Logger log = Logger.getLogger(SchedulerServiceImpl.class);
 
 	/**
 	 * job 추가
